@@ -26,14 +26,19 @@
         select *  from user  where id=#{0} and is_deleted=0;
     </select>
 
-    <insert id="addUser" parameterType="com.shu.star.model.User" keyProperty="id">
+    <insert id="addUser" parameterType="com.shu.star.model.User" useGeneratedKeys="true" keyProperty="id">
         insert into user(user_name,password,name,gender,age,height,address,weight,point,status,user_type,address_type,create_time,update_time,is_deleted)
         values(#{userName},#{password},#{name},#{gender},#{age},#{height},#{address},#{weight},#{point},#{status},#{userType},#{addressType},#{createTime},#{updateTime},#{isDeleted})
     </insert>
 
-    <insert id="addStarItem" parameterType="com.shu.star.model.User" keyProperty="id">
+    <insert id="addStarItem" parameterType="com.shu.star.model.User" useGeneratedKeys="true" keyProperty="id">
         insert into star_item(user_id,star_type,is_deleted)
         values(#{userId},#{starType},0)
+    </insert>
+
+    <insert id="addUserFile" parameterType="com.shu.star.model.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user_file(user_id,url,is_deleted)
+        values(#{userId},#{url},0)
     </insert>
 
 
@@ -46,6 +51,17 @@
         <where>
             <if test="addressType != null"> and address_type=#{addressType}</if>
         </where>
+    </select>
+
+
+    <select id="getUserListByMap" parameterType="hashmap"  resultMap="getUser">
+        select distinct u.* from user u,star_item si
+        <where>
+            <if test="1==1">u.id=si.user_id</if>
+            <if test="addressType != null"> and address_type=#{addressType}</if>
+            <if test="starType != null"> and si.star_type=#{starType}</if>
+        </where>
+        limit #{firstIndex},#{size}
     </select>
 
 </mapper>

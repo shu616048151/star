@@ -1,6 +1,7 @@
 package com.shu.star.mapper;
 
 import com.shu.star.model.User;
+import com.shu.star.vo.ParamsMap;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,4 +22,8 @@ public interface UserMapper {
     List<User> getUserList(@Param("addressType") Integer addressType,@Param("starType") Integer starType);
 
     Integer addStarItem(@Param("userId") Integer id,@Param("starType") int starType);
+
+    List<User> getUserListByMap(ParamsMap paramsMap);
+
+    void addUserFile(@Param("userId") Integer userId, @Param("url") String url);
 }

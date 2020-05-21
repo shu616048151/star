@@ -6,18 +6,24 @@ import com.shu.star.enums.StarType;
 import com.shu.star.enums.UserType;
 import com.shu.star.mapper.UserMapper;
 import com.shu.star.model.User;
+import com.shu.star.util.FileUtil;
+import com.shu.star.vo.ParamsMap;
 import com.shu.star.vo.ResponseMap;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.binding.MapperMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import sun.reflect.misc.FieldUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -51,7 +57,7 @@ public class UserController {
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/addStar",method = RequestMethod.POST)
-    public Map addStar(String userName, String passwrod, String name, Integer gender, Integer age, Integer height, Double weight, String address, AddressType addressTypeNew, StarType[] starTypes){
+    public Map addStar(String userName, String passwrod, String name, Integer gender, Integer age, Integer height, Double weight, String address, AddressType addressTypeNew, StarType[] starTypes, MultipartFile file) throws Exception {
         ResponseMap map = ResponseMap.getInstance();
         User user=new User(userName,SecureUtil.md5(passwrod),name,gender,age,height,weight,address);
         user.setPoint(0);
@@ -61,11 +67,14 @@ public class UserController {
         user.setUpdateTime(new Date());
         user.setIsDeleted(0);
         user.setStatus(0);
-        Integer id = userMapper.addUser(user);
-        if (id > 0){
+        Integer flag = userMapper.addUser(user);
+        if (flag > 0){
            for (StarType starType:starTypes){
-                userMapper.addStarItem(id,starType.ordinal());
+                userMapper.addStarItem(user.getId(),starType.ordinal());
            }
+           //上传文件
+            String url = FileUtil.upload("1", file);
+           userMapper.addUserFile(user.getId(),url);
             return map.putSuccess("新增成功");
         }
         return map.putFailure("新增失败",-1);
@@ -104,11 +113,21 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "addressType", value = "addressType", paramType = "form", dataType = "int"),
             @ApiImplicitParam(name = "starType", value = "starType", paramType = "form", dataType = "int"),
+            @ApiImplicitParam(name = "current", value = "starType", paramType = "form", dataType = "int"),
+            @ApiImplicitParam(name = "size", value = "starType", paramType = "form", dataType = "int"),
     })
     @RequestMapping(value = "/getUserList",method = RequestMethod.POST)
     @ResponseBody
-    public List<User> getUserList(AddressType addressType,Integer starType){
-        return userMapper.getUserList(addressType.ordinal(),starType);
+    public List<User> getUserList(AddressType addressType,StarType starType,int current,int size){
+        ParamsMap paramsMap = ParamsMap.getPageInstance(current, size);
+        if (addressType !=null){
+            paramsMap.put("addressType",addressType.ordinal());
+        }
+        if (starType != null){
+            paramsMap.put("starType",starType.ordinal());
+        }
+        List<User> userList= userMapper.getUserListByMap(paramsMap);
+        return userList;
     }
 
 
