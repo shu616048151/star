@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+    <meta charset="utf-8">
+    <title>明星</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="baidu-site-verification" content="gbRdPloQBZ">
+    <meta name="spm_prefix" content="666.14">
+    <script type="text/javascript" src="//static.hdslb.com/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="display.css">
+</head>
+
+<body>
+    <div class='bangumi-index-wrapper'>
+        <div class="bangumi-index-body clearfix">
+            <div class="filter-wrapper">
+                <div class="filter-title">筛选</div>
+                <div class="filter-list">
+                    <div class="filter-block">
+                        <div class="filter-name">地区</div>
+                        <ul class="filter-item-wrapper">
+                            <li title="全部" class="filter-item on">全部</li>
+                            <li title="日本" class="filter-item">大陆</li>
+                            <li title="美国" class="filter-item">港台</li>
+                            <li title="其他" class="filter-item">欧美</li>
+                            <li title="其他" class="filter-item">日韩</li>
+                        </ul>
+                    </div>
+                    <div class="filter-block">
+                        <div class="filter-name">类型</div>
+                        <ul class="filter-item-wrapper">
+                            <li title="全部" class="filter-item on">全部</li>
+                            <li title="正片" class="filter-item">歌星</li>
+                            <li title="电影" class="filter-item">影星</li>
+                            <li title="其他" class="filter-item">电视明星</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div  class="filter-body">
+                <ul id="main" class="bangumi-list clearfix">
+                    <li class="bangumi-item" style="">
+                        <a href="" target="_blank" class="cover-wrapper">
+                            <div class="common-lazy-img">
+                                <img alt="" src="./image.png" lazy="loaded">
+                            </div>
+                        </a>
+                        <span href="" target="_blank" class="bangumi-title">维尔利特    热度 161</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+window.onload=function()//用window的onload事件，窗体加载完毕的时候
+{
+    $.post("user/getUserList",{"current":1,"size":20},function (data) {
+        console.info(data);
+        for (var i=0;i<data.length;i++){
+            console.info(data[i])
+            $("#main").append(" <li class=\"bangumi-item\" style=\"\">\n" +
+                "                        <a href=\"\" target=\"_blank\" class=\"cover-wrapper\">\n" +
+                "                            <div class=\"common-lazy-img\">\n" +
+                "                                <img alt=\"\" src=\""+data[i].urls[0]+"\" lazy=\"loaded\">\n" +
+                "                            </div>\n" +
+                "                        </a>\n" +
+                "                        <a href=\"\" target=\"_blank\" class=\"bangumi-title\">"+data[i].name+"  热度 "+data[i].point+"</a>\n" +
+                "                    </li>")
+        }
+    })
+    console.info("dasakhfaskf")
+}
+</script>
+</html>

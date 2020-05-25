@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shu.star.mapper.MessageMapper">
+
+
+    <resultMap id="getMessgeVo" type="com.shu.star.vo.MessageVo">
+        <id property="id" column="id"/>
+        <result property="sendUserId" column="send_user_id"/>
+        <result property="receiveUserId" column="receive_user_id"/>
+        <result property="content" column="content"/>
+        <result property="messageType" column="message_type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
+
+    <insert id="addMessage" parameterType="hashmap">
+      insert into message(send_user_id,receive_user_id,content,message_type,create_time,update_time,is_deleted)
+      values (#{sendUserId},#{receiveUserId},#{content},#{messageType},#{createTime},#{updateTime},#{isDeleted})
+    </insert>
+
+    <select id="getMessage" parameterType="hashmap" resultMap="getMessgeVo">
+        select  * from message where (send_user_id=#{sendUserId} and receive_user_id=#{receiveUserId} and message_type=#{messageType} and is_deleted=0)
+        or (send_user_id=#{receiveUserId} and receive_user_id=#{sendUserId} and message_type=#{messageType} and is_deleted=0) order by create_time asc
+    </select>
+
+</mapper>

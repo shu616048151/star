@@ -9,6 +9,7 @@ import com.shu.star.model.User;
 import com.shu.star.util.FileUtil;
 import com.shu.star.vo.ParamsMap;
 import com.shu.star.vo.ResponseMap;
+import com.shu.star.vo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -73,6 +74,10 @@ public class UserController {
                 userMapper.addStarItem(user.getId(),starType.ordinal());
            }
            //上传文件
+//            for (MultipartFile file:files){
+//                String url = FileUtil.upload("1", file);
+//                userMapper.addUserFile(user.getId(),url);
+//            }
             String url = FileUtil.upload("1", file);
            userMapper.addUserFile(user.getId(),url);
             return map.putSuccess("新增成功");
@@ -90,7 +95,7 @@ public class UserController {
     public Map login(String userName, String password){
         password=SecureUtil.md5(password);
         ResponseMap instance = ResponseMap.getInstance();
-        List<User> userList = userMapper.login(userName, password);
+        List<UserVo> userList = userMapper.login(userName, password);
         if ( userList == null || userList.isEmpty()){
             return instance.putFailure("登录失败",-1);
         }
@@ -104,7 +109,7 @@ public class UserController {
     })
     @RequestMapping(value = "/getUserById",method = RequestMethod.POST)
     @ResponseBody
-    public User getUserById(int id){
+    public UserVo getUserById(int id){
         log.info(userMapper.getUserById(id).toString());
         return userMapper.getUserById(id);
     }
@@ -118,7 +123,7 @@ public class UserController {
     })
     @RequestMapping(value = "/getUserList",method = RequestMethod.POST)
     @ResponseBody
-    public List<User> getUserList(AddressType addressType,StarType starType,int current,int size){
+    public List<UserVo> getUserList(AddressType addressType,StarType starType,int current,int size){
         ParamsMap paramsMap = ParamsMap.getPageInstance(current, size);
         if (addressType !=null){
             paramsMap.put("addressType",addressType.ordinal());
@@ -126,7 +131,7 @@ public class UserController {
         if (starType != null){
             paramsMap.put("starType",starType.ordinal());
         }
-        List<User> userList= userMapper.getUserListByMap(paramsMap);
+        List<UserVo> userList= userMapper.getUserListByMap(paramsMap);
         return userList;
     }
 

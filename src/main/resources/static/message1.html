@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="full-screen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="browsermode" content="application">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="x5-page-mode" content="app">
+    <base target="_blank">
+    <title>会话</title>
+    <link id="favicon" href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link rel="stylesheet" href="kehu/index.min_1f3da8522b.css">
+    <!-- <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=COMBZ-T5NWF-N2KJF-JTLXC-62JKK-QKFQG"></script> -->
+    <script type="text/javascript" src="lib/js/jqlite.min_e1bb3086f4.js"></script>
+    <!--[if gt IE 9]>
+    <script type="text/javascript" src="lib/js/lrz.all.bundle_5de7487b02.js"></script>
+    <![endif]-->
+    <![if !IE]>
+    <script type="text/javascript" src="lib/js/lrz.all.bundle_5de7487b02.js"></script>
+    <![endif]>
+
+    <!-- 云通讯 -->
+    <!-- <script src="https://app.cloopen.com/im50/ytx-web-im-min-new-5.3.2r16.js"></script> -->
+
+    <script type="text/javascript" src="kehu/index.min_5a980cddc7.js" defer></script>
+</head>
+<body>
+<img class="abs cover body-bg" width="100%" height="100%">
+<div class="abs cover contaniner">
+    <div class="abs cover pnl">
+        <div class="abs top pnl-head" id="pnlHead">
+            <img src="kehu/files/images/logo_b6528ce5e9.png" class="pnl-hl" id="siteLogo" />
+            <div class="pnl-site hide" id="siteName">客户服务</div>
+            <div class="pnl-worker abs left">
+                <div class="pnl-worker-photo" id="workerPhoto">
+                    <i class="ic kh pnl-worker-icon" id="workerIcon">&#xe803;</i>
+                </div>
+                <div class="pnl-worker-text">
+                    <span class="pnl-worker-name" id="workerName">智能客服</span>
+                    <br/>
+                    <span class="pnl-worker-site" id="workerSite">----</span>
+                </div>
+            </div>
+            <div class="pnl-about" id="pnlAbout">
+                <i class="kh">&#xe80B;</i>
+                <span>关于我们</span>
+                <!-- 关于我们 -->
+                <div class="abs pop-about">
+                    <div id="about">
+                        <h4>深圳市智客网络科技有限公司</h4>
+                        <p>V5智能客服向前一小步、客服工作向前一大步，产品改善和用户满意是我们的不懈追求。</p>
+                        <ul class="about-links">
+                            <li class="about-link"><i class="kh">&#xe805;</i><span>0755-26011007</span></li>
+                            <li class="about-link"><i class="kh">&#xe80f;</i><span>深圳市南山区西丽街道1355号众冠大厦606</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="pnl-opt pnl-esc" id="exit"><i class="kh">&#xe802;</i></div>
+            <div class="pnl-opt pnl-min" id="min"><i class="kh">&#xe813;</i></div>
+            <div class="pnl-opt pnl-max" id="max"><i class="kh">&#xe814;</i></div>
+            <div class="pnl-opt pnl-voice" id="voicebtn"><i class="kh" id="voice">&#xE801;</i></div>
+        </div>
+        <div class="abs top pnl-head-sm" id="pnlHeadSm">
+            <i class="kh v hide" title="返回" id="histBackBtn">&#xe816;</i>
+            <div class="chat-title">在线咨询</div>
+            <i class="kh v-r hide" title="关闭" id="minBtn">&#xe813;</i>
+        </div>
+        <div class="abs cover pnl-body" id="pnlBody">
+            <div class="abs cover pnl-left">
+                <div class="abs top pnl-alert" id="alert">这是一则消息</div>
+                <!-- 广告条消息 -->
+                <div class="msg-banner banner-active hide" id="msgbanner">
+                    <div class="close" id="close"><i class="kh">&#xe824;</i></div>
+                    <div class="banner">广告位招租！</div>
+                </div>
+                <div class="abs cover pnl-msgs scroll" id="show">
+                    <div class="msg-banner banner-hidden hide">
+                        <div class="close"><i class="kh">&#xe824;</i></div>
+                        <div class="banner">消息公告</div>
+                    </div>
+                    <div class="msg min time" id="histStart">加载历史消息</div>
+                    <div class="pnl-list" id="hists">
+                        <!-- 历史消息 -->
+                    </div>
+                    <div class="pnl-list hide" id="defHot">
+                        <!-- 自定义热点图文信息 -->
+                    </div>
+                    <div class="pnl-list" id="msgs">
+                        <div class="msg robot hide" id="welcome">
+                            <div class="msg-left" id="welcomeLeft">
+                                <div class="msg-host" id="welcomeIcon"><i class="ic kh">&#xe803;</i></div>
+                                <div class="msg-ball" id="welcomeBall">连接...</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pnl-list hide" id="unreadLine">
+                        <div class="msg min time unread">未读消息</div>
+                    </div>
+                    <!-- <div class="pnl-mask hide" id="msg-mask"></div> -->
+                </div>
+                <div class="abs bottom pnl-text">
+                    <div class="abs bottom pnl-ext hide" id="pnlExt">
+                        <div class="emoji-pnl scroll hide" id="emojiPnl">
+                            <!-- <img class="emoji-item" key="/::<>" src="http://static.v5kf.com/images/emoji/qq/2009426203723341.gif" />
+                            <img class="emoji-item" key="/::<>" src="http://static.v5kf.com/images/emoji/qq/2009426203723341.gif" /> -->
+                        </div>
+                    </div>
+                    <div class="ques-pnl scroll hide" id="quesPnl">
+                        <ul class="questions unselect" id="ques"></ul>
+                    </div>
+                    <div class="abs top pnl-warn" id="pnlWarn">
+                        <div class="abs pnl-diy hide">
+                            <div class="diy-tab diy-left">我想</div>
+                            <div class="diy-tab diy-middle">
+                                <!-- <span class="diy-btn" data-href="https://www.hao123.com" value="123-1" type="click">123-11</span>
+                                <span class="diy-btn" data-href="https://www.baidu.com" value="123-2" type="link">123-22</span> -->
+                            </div>
+                            <div class="diy-tab diy-right hide">
+                                <i class="kh diy-pre">&#xE817;</i>
+                                <span class="diy-pre">换一批</span>
+                            </div>
+                        </div>
+                        <div class="fl btns rel pnl-warn-free">
+                            <i class="kh warn-btn emoji-btn" title="表情" id="emojiBtn">&#xe80E;</i>
+                            <i class="kh warn-btn menu-btn" title="菜单" id="menuBtn">&#xe821;</i>
+                            <i class="kh warn-btn send-btn" style="display:none;" title="发送" id="sendBtn">&#xe839;</i>
+                            <i class="kh warn-btn mute-btn" title="静音" id="muteBtn">&#xe801;</i>
+                        </div>
+                        <div class="fl btns rel pnl-warn-left" id="pnlBtns">
+                            <div class="pnl-warn-btns">
+                                <i class="kh warn-btn" title="常见问题" id="quesBtn">&#xe811;</i>
+                                <i class="kh warn-btn" title="图片上传" id="uploadBtn">&#xe810;</i>
+                                <i class="kh warn-btn" title="文件上传" id="fileBtn">&#xea02;</i>
+                                <i class="kh warn-btn" style="display:none;" title="视频" id="videoBtn">&#xe840;</i>
+                                <i class="kh warn-btn" style="display:none;" title="语音" id="voiceBtn">&#xe841;</i>
+                                <i class="kh warn-btn" style="display:none;" title="拍照上传" id="cameraBtn">&#xe827;</i>
+                                <i class="kh warn-btn" title="截图提示" id="scrshot">&#xe819;</i>
+                                <i class="kh warn-btn" title="评价" id="evalBtn">&#xe809;</i>
+                                <i class="kh warn-btn" title="我要留言" id="msgBtn">&#xe807;</i>
+                                <i class="kh warn-btn" title="提示音" id="voiceMbBtn">&#xe801;</i>
+                                <i class="kh warn-btn" title="转人工" id="humanBtn" data-time="0" data-click="2">&#xea01;</i>
+                            </div>
+                            <div class="pnl-support-sm" id="copyrightSm"><a>V5KF提供服务支持</a></div>
+                        </div>
+                        <div class="fl right pnl-warn-right">
+                            <span class="sess-status" id="sessStatus"><!-- 机器人小五 <small>为您服务</small> --></span>
+                            <!-- <i class="kh" kh-warn>&#xe80b;</i> --><span id="val-left" style="display:none;">您还可以输入<span id="valleft">450</span>字</span>
+                        </div>
+                    </div>
+                    <div class="abs cover pnl-input">
+                        <textarea class="scroll" id="text" wrap="hard" placeholder="在此输入..."></textarea>
+                        <div class="abs atcom-pnl scroll hide" id="atcomPnl">
+                            <ul class="atcom" id="atcom">
+                                <!-- <li class="atcom-item">这是一个问题？</li> -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="abs br pnl-btn" id="submit">发送</div>
+                    <div class="abs cover input-mask hide" id="recon">
+                        <div class="recon-tip" id="distype">
+                            <span id="closeTip">因长时间未活动会话已关闭</span>，您可以<i id="refresh"> 刷新 </i>或<i id="startChat"> 继续对话 </i>
+                        </div>
+                    </div>
+                    <div class="pnl-support" id="copyright"><a>V5KF提供服务支持</a></div>
+                </div>
+
+                <!-- 音视频控制 -->
+                <div class="abs media-control hide" id="m-control">
+                    <div class="call-title">XXX来电 - 语音通话</div>
+                    <div class="call-ring"><i class="kh">&#xe846;</i></div>
+                    <div class="call-accept"><i class="kh">&#xe842;</i></div>
+                    <div class="call-reject"><i class="kh">&#xe843;</i></div>
+                </div>
+            </div>
+            <div class="abs right pnl-right">
+                <!-- 轮播图 hide控制显隐 20em * 10em (260px * 130px) -->
+                <!-- <ul class="slider">
+                        <li class="slider-item slider-item1"></li>
+                        <li class="slider-item slider-item2"></li>
+                        <li class="slider-item slider-item3"></li>
+                        <li class="slider-item slider-item4"></li>
+                        <li class="slider-item slider-item5"></li>
+                    </ul>
+                    <ul class="indicator">
+                        <li><div class="focus-item focus-item1"></div></li>
+                        <li><div class="focus-item focus-item2"></div></li>
+                        <li><div class="focus-item focus-item3"></div></li>
+                        <li><div class="focus-item focus-item4"></div></li>
+                        <li><div class="focus-item focus-item5"></div></li>
+                    </ul> -->
+                <div class="slider-container hide"></div>
+                <div class="pnl-right-content">
+                    <div class="pnl-tabs">
+                        <div class="tab-btn active" id="hot-tab">常见问题</div>
+                        <div class="tab-btn" id="rel-tab">相关问题</div>
+                    </div>
+                    <div class="pnl-hot">
+                        <ul class="rel-list unselect" id="hots">
+                            <!-- <li class="rel-item">这是一个问题，这是一个问题？</li> -->
+                        </ul>
+                    </div>
+                    <div class="pnl-rel" style="display: none;">
+                        <ul class="rel-list unselect" id="rels">
+                            <!-- <li class="rel-item">这是一个问题，这是一个问题？</li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 音视频 -->
+    <div class="abs cover media-container hide" id="media">
+        <video class="video_distance" data-video="distance" autoplay controls></video>
+        <video class="video_local" data-video="local" autoplay muted controls></video>
+        <div class="video-control">
+            <div class="mute"><i class="kh">&#xe848;</i></div>
+            <div class="hangup"><i class="kh">&#xe843;</i></div>
+            <div class="video-off"><i class="kh">&#xe847;</i></div>
+        </div>
+        <div class="hide">
+            <audio id="voiceMsg" autoplay></audio>
+            <audio src="lib/files/audios/ringback_922725dde9.mp3" id="call_ring" loop="-1"></audio>
+        </div>
+    </div>
+    <div class="mask unclose" id="mask" style="-webkit-overflow-scrolling: touch;overflow-y: scroll;">
+        <div class="abs cover loading" id="loading"></div>
+        <div class="abs cover warn hide" id="warn"></div>
+        <!-- <iframe class="link-pnl hide" id="iframe" src=""></iframe> -->
+        <div class="abs cover prev-img hide" id="prev">
+            <div class="prev-btn img-num">
+                <span class="num-bar" id="imgNum"></span>
+            </div>
+            <div class="abs prev-img-box"
+                 style="width: 0px; height: 0px; left: 50%; top: 50%;">
+                <img class="prev-img-tag" id="previmg" draggable="false" />
+            </div>
+            <div class="prev-btn img-zoom hide">
+                <i class="kh" id="zoomSmall">&#xe851;</i>
+                <i class="kh" id="zoomLarge">&#xe852;</i>
+            </div>
+            <div class="prev-btn img-rot">
+                <i class="kh" id="rotAnti">&#xe818;</i>
+                <i class="kh" id="rotWise">&#xe817;</i>
+            </div>
+            <div class="prev-btn img-mid img-left">
+                <i class="kh mid-prev" id="midPrev">&#xe849;</i>
+            </div>
+            <div class="prev-btn img-mid img-right">
+                <i class="kh mid-next" id="midNext">&#xe850;</i>
+            </div>
+        </div>
+        <div class="abs cover prev-map hide" id="prevMap">
+            <div class="abs prev-map-box"
+                 style="/*width: 100%; height: 100%; */left: 6em; top: 4em; right: 6em; bottom: 4em; border-radius: .2em;">
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function _getHrefSearch() {
+        var search = window.location.search.substr(1).split('&'),
+            ret = {}, it;
+        for (var i = 0, len = search.length; i < len; i++) {
+            it = search[i];
+            ret[it.replace(/=[\w\W]*$/, '')] = it.replace(/^[\w\W]*?=/, '');
+        }
+        return ret;
+    }
+
+    function _getIeVersion() {
+        var v = 3,
+            p = document.createElement('p'),
+            all = p.getElementsByTagName('i');
+        while (p.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->', all[0]) {}
+        return v > 4 ? v : 0;
+    }
+
+    var _hrefParam = _getHrefSearch(), ie = _getIeVersion(), phone = _hrefParam.dev == 'phone';
+    window.parent && window.parent !== window && (!ie || ie > 8) && (document.body.className += ' ifr');
+    phone && (document.body.className += ' phone');
+
+    var scale = _hrefParam.scale;
+    scale && document.write('<meta name="viewport" content="width=device-width, initial-scale='+scale+', maximum-scale='+scale+', user-scalable=no">');
+</script>
+</body>
+</html>

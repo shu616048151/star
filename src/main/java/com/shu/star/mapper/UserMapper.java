@@ -2,6 +2,7 @@ package com.shu.star.mapper;
 
 import com.shu.star.model.User;
 import com.shu.star.vo.ParamsMap;
+import com.shu.star.vo.UserVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,17 +14,17 @@ import java.util.List;
  * @Description:
  */
 public interface UserMapper {
-    User getUserById(int userId);
+    UserVo getUserById(int userId);
 
     Integer addUser(User user);
 
-    List<User> login(@Param("userName") String userName,@Param("password") String password);
+    List<UserVo> login(@Param("userName") String userName,@Param("password") String password);
 
-    List<User> getUserList(@Param("addressType") Integer addressType,@Param("starType") Integer starType);
+    List<UserVo> getUserList(@Param("addressType") Integer addressType,@Param("starType") Integer starType);
 
     Integer addStarItem(@Param("userId") Integer id,@Param("starType") int starType);
 
-    List<User> getUserListByMap(ParamsMap paramsMap);
+    List<UserVo> getUserListByMap(ParamsMap paramsMap);
 
     void addUserFile(@Param("userId") Integer userId, @Param("url") String url);
 }
