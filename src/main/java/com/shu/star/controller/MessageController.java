@@ -39,7 +39,7 @@ public class MessageController {
             @ApiImplicitParam(name = "content", value = "内容", paramType = "form", dataType = "string"),
     })
     @RequestMapping(value = "/sendMessage")
-    public Map sendMessage(int sendUserId, int receiveUserId,String content, MessageType messageType) throws Exception {
+    public Map sendMessage(Integer sendUserId, Integer receiveUserId,String content, MessageType messageType) throws Exception {
         ResponseMap responseMap = ResponseMap.getInstance();
 
         ParamsMap paramsMap = ParamsMap.getPageInstance();
