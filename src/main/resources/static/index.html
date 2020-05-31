@@ -47,7 +47,8 @@
                                 <img alt="" src="./image.png" lazy="loaded">
                             </div>
                         </a>
-                        <span href="" target="_blank" class="bangumi-title">维尔利特    热度 161</span>
+                        <a href="" target="_blank" class="bangumi-title">维尔利特    热度 161</a>
+                        <a href="" target="_blank" class="bangumi-title">私信</a>
                     </li>
                 </ul>
             </div>
@@ -68,7 +69,8 @@ window.onload=function()//用window的onload事件，窗体加载完毕的时候
                 "                                <img alt=\"\" src=\""+data[i].urls[0]+"\" lazy=\"loaded\">\n" +
                 "                            </div>\n" +
                 "                        </a>\n" +
-                "                        <a href=\"\" target=\"_blank\" class=\"bangumi-title\">"+data[i].name+"  热度 "+data[i].point+"</a>\n" +
+                "                        <a href=\"\" target=\"_blank\" class=\"bangumi-title\">"+data[i].name+"&nbsp;&nbsp;热度 "+data[i].point+"</a>\n" +
+                    "<a href=\"message.html?sendUserId=1&receiveUserId="+data[i].id+"\" target=\"_blank\" class=\"bangumi-title\">私信</a>\n"+
                 "                    </li>")
         }
     })
