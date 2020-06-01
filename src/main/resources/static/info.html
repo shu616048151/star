@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>明星个人资料</title>
+
+    <script type="text/javascript" src="//static.hdslb.com/js/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>-->
+    <script type="text/javascript" src="js/angular.min.js"></script>
+
+</head>
+<body  ng-app="m" ng-controller="c" ng-init='index = "模块角色";subIndex = "账号管理"'>
+<div>
+    <table width="800" border="1" align="center" cellpadding="10" cellspacing="0">
+        <caption><h3>个人资料</h3></caption>
+        <tr>
+            <td colspan="3" bgcolor="#9FCDEA">个人资料</td>
+        </tr>
+        <tr>
+            <td>姓 名：{{user.name}}</td>
+            <td>婚姻状况：</td>
+            <!--<td rowspan="5" align="center" valign="middle">-->
+            <td rowspan="4" align="center" valign="middle" width="180">
+                <!--照片-->
+            <img src="{{user.url}}" width="180" height="200">
+                <!--<a href="" target="_blank" class="cover-wrapper">-->
+                    <!--<div class="common-lazy-img">-->
+                        <!--<img class="fl avator-img" id="js-portrait" src="https://kdfiles.d9lab.net/group1/M00/01/8F/cHxzJF7Lk-GADSXvAACpEkD1lSU599.jpg" data-portrait="58492fe600012e8e01800180" width="200" height="200">-->
+                    <!--</div>-->
+                <!--</a>-->
+            </td>
+        </tr>
+        <tr>
+            <td>出 生：{{user.date}}</td>
+            <td>籍 贯：{{user.address}}</td>
+        </tr>
+        <tr>
+            <td>性 别：{{user.gender}}</td>
+            <td>民 族：{{user.people}}</td>
+        </tr>
+        <tr>
+            <td>身 高：{{user.height}}</td>
+            <td>体 重：{{user.weight}}</td>
+        </tr>
+
+        <tr>
+            <td colspan="3">地区：{{user.addressType}}</td>
+        </tr>
+        <tr>
+            <td colspan="3">明星类型：{{user.starType}}</td>
+        </tr>
+    </table>
+</div>
+</body>
+<script >
+    angular.module("m", []).controller("c",function ($scope,$http) {
+        // $scope.name="刘亦菲";
+        $scope.$watch('$viewContentLoaded', function () {
+            var id= $scope.getQueryVariable("id");
+            $.post("user/getUserById",{"id":id},function (data) {
+                $scope.user=data
+                $scope.user.url=data.urls[0];
+                //刷新数据
+                var str="";
+                for (var i=0;i<data.starTypeList.length;i++){
+                    var type=data.starTypeList[i];
+                    if (type==0){
+                        str+="歌星  "
+                    }
+                    if (type==1){
+                        str+="影星  "
+                    }
+                    if (type==2){
+                        str+="电视剧明星  "
+                    }
+                }
+                $scope.user.starType=str;
+                $scope.$apply()
+            })
+            //人气刷新
+            $.post("user/addStarPoint",{"id":id});
+
+        });
+
+        $scope.getQueryVariable=function(variable)
+        {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
+            }
+            return(false);
+        }
+        
+    })
+</script>
+</html>

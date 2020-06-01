@@ -1,6 +1,9 @@
 package com.shu.star.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.shu.star.enums.AddressType;
+import com.shu.star.enums.Gender;
+import com.shu.star.enums.StarType;
 import lombok.Data;
 
 import java.util.Date;
@@ -20,17 +23,18 @@ public class UserVo {
     @JsonIgnore
     private String password;
     private String name;
-    private Integer gender;
+    private Gender gender;
     private Integer age;
     private Integer height;
     private Double weight;
     private String address;
     private Integer point;
     private Integer userType;
-    private Integer addressType;
+    private AddressType addressType;
     private Integer status; //是否被禁
     private Date createTime;
     private Date updateTime;
     private Integer isDeleted;
     private List<String> urls;
+    private List<Integer> starTypeList;
 }

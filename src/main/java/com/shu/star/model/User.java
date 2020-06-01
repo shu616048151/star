@@ -1,6 +1,7 @@
 package com.shu.star.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.shu.star.enums.Gender;
 import lombok.Data;
 
 import java.util.Date;
@@ -19,10 +20,14 @@ public class User {
     @JsonIgnore
     private String password;
     private String name;
-    private Integer gender;
+    private Gender gender;
     private Integer age;
     private Integer height;
     private Double weight;
+    //民族
+    private String people;
+    //婚姻
+    private String married;
     private String address;
     private Integer point;
     private Integer userType;
@@ -35,7 +40,7 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String password, String name,Integer gender, Integer age, Integer height, Double weight, String address) {
+    public User(String userName, String password, String name,Gender gender, Integer age, Integer height, Double weight, String address) {
         this.userName = userName;
         this.password = password;
         this.name = name;

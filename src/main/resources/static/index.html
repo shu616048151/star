@@ -47,15 +47,15 @@
             </div>
             <div  class="filter-body">
                 <ul id="main" class="bangumi-list clearfix">
-                    <li class="bangumi-item" style="">
-                        <a href="" target="_blank" class="cover-wrapper">
-                            <div class="common-lazy-img">
-                                <img class="fl avator-img" id="js-portrait" src="https://kdfiles.d9lab.net/group1/M00/01/8F/cHxzJF7Lk-GADSXvAACpEkD1lSU599.jpg" data-portrait="58492fe600012e8e01800180" width="180" height="200">
-                            </div>
-                        </a>
-                        <a href="" target="_blank" class="bangumi-title">维尔利特    热度 161</a>
-                        <a href="" target="_blank" class="bangumi-title">私信</a>
-                    </li>
+                    <!--<li class="bangumi-item" style="">-->
+                        <!--<a href="" target="_blank" class="cover-wrapper">-->
+                            <!--<div class="common-lazy-img">-->
+                                <!--<img class="fl avator-img" id="js-portrait" src="https://kdfiles.d9lab.net/group1/M00/01/8F/cHxzJF7Lk-GADSXvAACpEkD1lSU599.jpg" data-portrait="58492fe600012e8e01800180" width="180" height="200">-->
+                            <!--</div>-->
+                        <!--</a>-->
+                        <!--<a href="" target="_blank" class="bangumi-title">维尔利特    热度 161</a>-->
+                        <!--<a href="" target="_blank" class="bangumi-title">私信</a>-->
+                    <!--</li>-->
                 </ul>
             </div>
 
@@ -70,12 +70,12 @@ window.onload=function()//用window的onload事件，窗体加载完毕的时候
         for (var i=0;i<data.length;i++){
             console.info(data[i])
             $("#main").append(" <li class=\"bangumi-item\" style=\"\">\n" +
-                "                        <a href=\"\" target=\"_blank\" class=\"cover-wrapper\">\n" +
+                "                        <a href=\"info.html?id="+data[i].id+"\" target=\"_blank\" class=\"cover-wrapper\">\n" +
                 "                            <div class=\"common-lazy-img\">\n" +
                 "                                 <img class=\"fl avator-img\" id=\"js-portrait\" src=\""+data[i].urls[0]+"\" data-portrait=\"58492fe600012e8e01800180\" width=\"200\" height=\"200\">" +
                 "                            </div>\n" +
                 "                        </a>\n" +
-                "                        <a href=\"\" target=\"_blank\" class=\"bangumi-title\">"+data[i].name+"&nbsp;&nbsp;热度 "+data[i].point+"</a>\n" +
+                "                        <a href=\"info.html?id="+data[i].id+"\" target=\"_blank\" class=\"bangumi-title\">"+data[i].name+"&nbsp;&nbsp;热度 "+data[i].point+"</a>\n" +
                     "<a href=\"message.html?sendUserId=1&receiveUserId="+data[i].id+"\" target=\"_blank\" class=\"bangumi-title\">私信</a>\n"+
                 "                    </li>")
         }

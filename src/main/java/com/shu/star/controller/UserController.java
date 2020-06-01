@@ -2,6 +2,7 @@ package com.shu.star.controller;
 
 import cn.hutool.crypto.SecureUtil;
 import com.shu.star.enums.AddressType;
+import com.shu.star.enums.Gender;
 import com.shu.star.enums.StarType;
 import com.shu.star.enums.UserType;
 import com.shu.star.mapper.UserMapper;
@@ -58,7 +59,7 @@ public class UserController {
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/addStar",method = RequestMethod.POST)
-    public Map addStar(String userName, String passwrod, String name, Integer gender, Integer age, Integer height, Double weight, String address, AddressType addressTypeNew, StarType[] starTypes, MultipartFile file) throws Exception {
+    public Map addStar(String userName, String passwrod, String name, Gender gender, Integer age, Integer height, Double weight, String address, AddressType addressTypeNew, StarType[] starTypes, MultipartFile file) throws Exception {
         ResponseMap map = ResponseMap.getInstance();
         User user=new User(userName,SecureUtil.md5(passwrod),name,gender,age,height,weight,address);
         user.setPoint(0);
@@ -85,13 +86,13 @@ public class UserController {
         return map.putFailure("新增失败",-1);
     }
 
+
     @ApiOperation(value = "用户登录", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userName", value = "userName", paramType = "form", dataType = "string"),
             @ApiImplicitParam(name = "password", value = "password", paramType = "form", dataType = "string")
     })
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    @ResponseBody
     public Map login(String userName, String password){
         password=SecureUtil.md5(password);
         ResponseMap instance = ResponseMap.getInstance();
@@ -105,13 +106,24 @@ public class UserController {
 
     @ApiOperation(value = "获取用户信息", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "userid", paramType = "form", dataType = "int")
+            @ApiImplicitParam(name = "id", value = "id", paramType = "form", dataType = "int")
     })
     @RequestMapping(value = "/getUserById",method = RequestMethod.POST)
-    @ResponseBody
-    public UserVo getUserById(int id){
+    public UserVo getUserById(Integer id){
         log.info(userMapper.getUserById(id).toString());
         return userMapper.getUserById(id);
+    }
+
+    @ApiOperation(value = "刷新人气", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "userid", paramType = "form", dataType = "int")
+    })
+    @RequestMapping(value = "/addStarPoint",method = RequestMethod.POST)
+    @ResponseBody
+    public Map addStarPoint(int id){
+        ResponseMap map = ResponseMap.getInstance();
+        userMapper.addStarPoint(id);
+        return map.putSuccess("人气增加成功");
     }
 
     @ApiOperation(value = "获取用户信息", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
