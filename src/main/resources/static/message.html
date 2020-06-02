@@ -87,14 +87,12 @@
                     alert("消息不能为空");
                     return;
                 }
-                // if(Who.value == 0){
-                //     //如果Who.value为0n那么是 A说
-                //     str = '<div class="atalk"><span>A说 :' + TalkWords.value +'</span></div>';
-                // }
-                // else{
-                // }
-                    str = '<div class="btalk"><span>B说 :' + TalkWords.value +'</span></div>' ;
-                // TalkWords.value="";
+                var sendUserId = getQueryVariable("sendUserId");
+                var sendUser;
+                $.post("user/getUserById",{"id":sendUserId},function (data) {
+                    sendUser=data
+                })
+                    str = '<div class="btalk"><span>'+sendUser.name+':' + TalkWords.value +'</span></div>' ;
                 Words.innerHTML = Words.innerHTML + str;
                 $('#words').scrollTop( $('#words')[0].scrollHeight );
             }
@@ -116,25 +114,33 @@
             setTimeout(getApi,1000)
                 var receiveUserId = getQueryVariable("receiveUserId");
                 var sendUserId = getQueryVariable("sendUserId");
-            $.post("message/getPrivateMessage",{"receiveUserId":receiveUserId,"sendUserId":sendUserId},function (data) {
+                $.post("user/getUserById",{"id":sendUserId},function (sendUser) {
+                    // sendUser=data
+                    $.post("user/getUserById",{"id":receiveUserId},function (receiveUser) {
+                        // receiveUser=data
+                        $.post("message/getPrivateMessage",{"receiveUserId":receiveUserId,"sendUserId":sendUserId},function (data) {
 
-                var Words = document.getElementById("words");
-                var list=data.list;
-                Words.innerHTML='';
-                for (var i=0;i<list.length;i++){
-                    var message = list[i];
-                    var str = "";
-                    if (message.sendUserId==sendUserId){
-                        str = '<div class="btalk"><span>B说 :' + message.content +'</span></div>' ;
-                    } else{
-                        str = '<div class="atalk"><span>A说 :' +  message.content +'</span></div>';
+                            var Words = document.getElementById("words");
+                            var list=data.list;
+                            Words.innerHTML='';
+                            for (var i=0;i<list.length;i++){
+                                var message = list[i];
+                                var str = "";
+                                if (message.sendUserId==sendUserId){
+                                    str = '<div class="btalk"><span>'+ sendUser.name+':' + message.content +'</span></div>' ;
+                                } else{
+                                    str = '<div class="atalk"><span>'+ receiveUser.name+' :' +  message.content +'</span></div>';
 
-                    }
-                    Words.innerHTML = Words.innerHTML + str;
-                }
-                $('#words').scrollTop( $('#words')[0].scrollHeight );
+                                }
+                                Words.innerHTML = Words.innerHTML + str;
+                            }
+                            $('#words').scrollTop( $('#words')[0].scrollHeight );
+                        })
+                    })
+                })
 
-            })
+
+
         }
         $('html, body,#talk_con').animate({scrollTop: $(document).height()}, 50);
         function getQueryVariable(variable)
