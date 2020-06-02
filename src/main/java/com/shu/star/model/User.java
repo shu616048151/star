@@ -1,7 +1,9 @@
 package com.shu.star.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.shu.star.enums.AddressType;
 import com.shu.star.enums.Gender;
+import com.shu.star.enums.UserType;
 import lombok.Data;
 
 import java.util.Date;
@@ -26,13 +28,14 @@ public class User {
     private Double weight;
     //民族
     private String people;
-    //婚姻
-    private String married;
     private String address;
     private Integer point;
-    private Integer userType;
-    private Integer addressType;
+    //用户类型
+    private UserType userType;
+    //明星地区类型
+    private AddressType addressType;
     private Integer status; //是否被禁
+    private String birthday;
     private Date createTime;
     private Date updateTime;
     private Integer isDeleted;

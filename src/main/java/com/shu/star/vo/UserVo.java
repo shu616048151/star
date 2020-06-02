@@ -28,6 +28,8 @@ public class UserVo {
     private Integer height;
     private Double weight;
     private String address;
+    private String people;
+    private String birthday;
     private Integer point;
     private Integer userType;
     private AddressType addressType;

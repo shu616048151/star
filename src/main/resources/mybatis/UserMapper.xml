@@ -30,6 +30,8 @@
         <result property="gender" column="gender" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
         <result property="age" column="age"/>
         <result property="height" column="height"/>
+        <result property="birthday" column="birthday"/>
+        <result property="people" column="people"/>
         <result property="address" column="address"/>
         <result property="point" column="point"/>
         <result property="userType" column="user_type"/>
@@ -47,7 +49,7 @@
         select star_type from star_item where user_id=#{0}
     </select>
     <select id="getFileUrlByUserId" parameterType="integer" resultType="string">
-        select url from user_file where user_id=#{0} and is_deleted=0
+        select url from user_file where user_id=#{0} and is_deleted=0 order by create_time desc
     </select>
 
     <select id="getUserById" parameterType="integer" resultMap="getUserVo">
@@ -56,12 +58,12 @@
 
     <insert id="addUser" parameterType="com.shu.star.model.User" useGeneratedKeys="true" keyProperty="id">
         insert into user(user_name,password,name,gender,age,height,address,weight,point,status,user_type,address_type,create_time,update_time,is_deleted)
-        values(#{userName},#{password},#{name},#{gender,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{age},#{height},#{address},#{weight},#{point},#{status},#{userType},#{addressType},#{createTime},#{updateTime},#{isDeleted})
+        values(#{userName},#{password},#{name},#{gender,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{age},#{height},#{address},#{weight},#{point},#{status},#{userType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{addressType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{createTime},#{updateTime},#{isDeleted})
     </insert>
 
     <insert id="addStarItem" parameterType="com.shu.star.model.User" useGeneratedKeys="true" keyProperty="id">
-        insert into star_item(user_id,star_type,is_deleted)
-        values(#{userId},#{starType},0)
+        insert into star_item(user_id,star_type,create_time,is_deleted)
+        values(#{userId},#{starType},#{createTime},0)
     </insert>
 
     <insert id="addUserFile" parameterType="com.shu.star.model.User" useGeneratedKeys="true" keyProperty="id">
@@ -96,6 +98,53 @@
 
     <update id="addStarPoint" parameterType="integer">
         update user set point=point+1 where id=#{0}
+    </update>
+
+    <update id="updateUser" parameterType="com.shu.star.model.User">
+        update user
+        <set>
+            <if test="userName !=null">
+               user_name=#{userName},
+            </if>
+             <if test="password !=null">
+                 password=#{password},
+            </if>
+            <if test="name !=null">
+                name=#{name},
+            </if>
+            <if test="gender !=null">
+                gender=#{gender,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+            </if>
+            <if test="age !=null">
+                age=#{age},
+            </if>
+            <if test="height !=null">
+                height=#{height},
+            </if>
+            <if test="weight !=null">
+                weight=#{weight},
+            </if>
+            <if test="updateTime !=null">
+                update_time=#{updateTime},
+            </if>
+            <if test="birthday !=null">
+                birthday=#{birthday},
+            </if>
+            <if test="people !=null">
+                people=#{people},
+            </if>
+            <if test="address !=null">
+                address=#{address},
+            </if>
+            <if test="userType !=null">
+                user_type=#{userType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+            </if>
+            <if test="addressType !=null">
+                address_type=#{addressType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+            </if>
+
+        </set>
+        where id=#{id}
     </update>
 
 </mapper>

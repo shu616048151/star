@@ -63,8 +63,8 @@ public class UserController {
         ResponseMap map = ResponseMap.getInstance();
         User user=new User(userName,SecureUtil.md5(passwrod),name,gender,age,height,weight,address);
         user.setPoint(0);
-        user.setAddressType(addressTypeNew.ordinal());
-        user.setUserType(UserType.明星.ordinal());
+        user.setAddressType(addressTypeNew);
+        user.setUserType(UserType.明星);
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
         user.setIsDeleted(0);
@@ -72,7 +72,7 @@ public class UserController {
         Integer flag = userMapper.addUser(user);
         if (flag > 0){
            for (StarType starType:starTypes){
-                userMapper.addStarItem(user.getId(),starType.ordinal());
+                userMapper.addStarItem(user.getId(),starType.ordinal(),new Date());
            }
            //上传文件
 //            for (MultipartFile file:files){
@@ -82,6 +82,34 @@ public class UserController {
             String url = FileUtil.upload("1", file);
            userMapper.addUserFile(user.getId(),url);
             return map.putSuccess("新增成功");
+        }
+        return map.putFailure("新增失败",-1);
+    }
+
+    @ApiOperation(value = "修改明星信息(基本数据信息不能修改)", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", paramType = "form", dataType = "int",required = true),
+    })
+    @RequestMapping(value = "/updateStar",method = RequestMethod.POST)
+    public Map updateStar(User user, StarType[] starTypes, MultipartFile file) throws Exception {
+        ResponseMap map = ResponseMap.getInstance();
+        user.setUserType(UserType.明星);
+        user.setCreateTime(new Date());
+        user.setUpdateTime(new Date());
+        user.setIsDeleted(0);
+        user.setStatus(0);
+        Integer flag = userMapper.updateUser(user);
+        if (flag > 0){
+            if (starTypes !=null){
+               for (StarType starType:starTypes){
+                    userMapper.addStarItem(user.getId(),starType.ordinal(),new Date());
+               }
+            }
+            if (file != null){
+                String url = FileUtil.upload("1", file);
+                userMapper.addUserFile(user.getId(),url);
+            }
+            return map.putSuccess("修改成功");
         }
         return map.putFailure("新增失败",-1);
     }
@@ -109,8 +137,8 @@ public class UserController {
             @ApiImplicitParam(name = "id", value = "id", paramType = "form", dataType = "int")
     })
     @RequestMapping(value = "/getUserById",method = RequestMethod.POST)
-    public UserVo getUserById(Integer id){
-        log.info(userMapper.getUserById(id).toString());
+    public UserVo getUserById(int id){
+//        log.info(userMapper.getUserById(id).toString());
         return userMapper.getUserById(id);
     }
 

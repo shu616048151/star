@@ -5,6 +5,7 @@ import com.shu.star.vo.ParamsMap;
 import com.shu.star.vo.UserVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,11 +23,13 @@ public interface UserMapper {
 
     List<UserVo> getUserList(@Param("addressType") Integer addressType,@Param("starType") Integer starType);
 
-    Integer addStarItem(@Param("userId") Integer id,@Param("starType") int starType);
+    Integer addStarItem(@Param("userId") Integer id, @Param("starType") int starType, @Param("createTime")Date createTime);
 
     List<UserVo> getUserListByMap(ParamsMap paramsMap);
 
     void addUserFile(@Param("userId") Integer userId, @Param("url") String url);
 
     void addStarPoint(int id);
+
+    Integer updateUser(User user);
 }
