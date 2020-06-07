@@ -57,8 +57,8 @@
     </select>
 
     <insert id="addUser" parameterType="com.shu.star.model.User" useGeneratedKeys="true" keyProperty="id">
-        insert into user(user_name,password,name,gender,age,height,address,weight,point,status,user_type,address_type,create_time,update_time,is_deleted)
-        values(#{userName},#{password},#{name},#{gender,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{age},#{height},#{address},#{weight},#{point},#{status},#{userType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{addressType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{createTime},#{updateTime},#{isDeleted})
+        insert into user(user_name,password,name,birthday,people,gender,age,height,address,weight,point,status,user_type,address_type,create_time,update_time,is_deleted)
+        values(#{userName},#{password},#{name},#{birthday},#{people},#{gender,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{age},#{height},#{address},#{weight},#{point},#{status},#{userType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{addressType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{createTime},#{updateTime},#{isDeleted})
     </insert>
 
     <insert id="addStarItem" parameterType="com.shu.star.model.User" useGeneratedKeys="true" keyProperty="id">
@@ -67,8 +67,8 @@
     </insert>
 
     <insert id="addUserFile" parameterType="com.shu.star.model.User" useGeneratedKeys="true" keyProperty="id">
-        insert into user_file(user_id,url,is_deleted)
-        values(#{userId},#{url},0)
+        insert into user_file(user_id,url,create_time,is_deleted)
+        values(#{userId},#{url},#{createTime},0)
     </insert>
 
 
@@ -90,6 +90,7 @@
         <where>
             <if test="1==1">u.id=si.user_id</if>
             <if test="addressType != null"> and address_type=#{addressType}</if>
+            <if test="gender != null"> and gender=#{gender}</if>
             <if test="starType != null"> and si.star_type=#{starType}</if>
         </where>
         order by u.point desc

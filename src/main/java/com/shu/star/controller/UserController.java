@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import sun.reflect.misc.FieldUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -59,12 +60,22 @@ public class UserController {
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/addStar",method = RequestMethod.POST)
-    public Map addStar(String userName, String passwrod, String name, Gender gender, Integer age, Integer height, Double weight, String address, AddressType addressTypeNew, StarType[] starTypes, MultipartFile file) throws Exception {
+    public Map addStar(String userName, String passwrod, String name, Gender gender,String birthday,String people, Integer height, Double weight, String address, AddressType addressTypeNew, StarType[] starTypes, MultipartFile file) throws Exception {
         ResponseMap map = ResponseMap.getInstance();
+
+        if (birthday==null){
+            return map.putFailure("数据有误",-1);
+        }
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy年MM月dd日");
+        Date parse = simpleDateFormat.parse(birthday);
+        Date today=new Date();
+        Integer age=today.getYear()-parse.getYear();
         User user=new User(userName,SecureUtil.md5(passwrod),name,gender,age,height,weight,address);
         user.setPoint(0);
         user.setAddressType(addressTypeNew);
         user.setUserType(UserType.明星);
+        user.setBirthday(birthday);
+        user.setPeople(people);
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
         user.setIsDeleted(0);
@@ -80,7 +91,7 @@ public class UserController {
 //                userMapper.addUserFile(user.getId(),url);
 //            }
             String url = FileUtil.upload("1", file);
-           userMapper.addUserFile(user.getId(),url);
+           userMapper.addUserFile(user.getId(),url,new Date());
             return map.putSuccess("新增成功");
         }
         return map.putFailure("新增失败",-1);
@@ -107,7 +118,7 @@ public class UserController {
             }
             if (file != null){
                 String url = FileUtil.upload("1", file);
-                userMapper.addUserFile(user.getId(),url);
+                userMapper.addUserFile(user.getId(),url,new Date());
             }
             return map.putSuccess("修改成功");
         }
@@ -163,13 +174,16 @@ public class UserController {
     })
     @RequestMapping(value = "/getUserList",method = RequestMethod.POST)
     @ResponseBody
-    public List<UserVo> getUserList(AddressType addressType,StarType starType,int current,int size){
+    public List<UserVo> getUserList(AddressType addressType,StarType starType,Gender gender,int current,int size){
         ParamsMap paramsMap = ParamsMap.getPageInstance(current, size);
         if (addressType !=null){
             paramsMap.put("addressType",addressType.ordinal());
         }
         if (starType != null){
             paramsMap.put("starType",starType.ordinal());
+        }
+        if (gender!=null){
+            paramsMap.put("gender",gender.ordinal());
         }
         List<UserVo> userList= userMapper.getUserListByMap(paramsMap);
         return userList;

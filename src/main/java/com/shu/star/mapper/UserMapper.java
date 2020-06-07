@@ -27,7 +27,7 @@ public interface UserMapper {
 
     List<UserVo> getUserListByMap(ParamsMap paramsMap);
 
-    void addUserFile(@Param("userId") Integer userId, @Param("url") String url);
+    void addUserFile(@Param("userId") Integer userId, @Param("url") String url,@Param("createTime")Date createTime);
 
     void addStarPoint(int id);
 

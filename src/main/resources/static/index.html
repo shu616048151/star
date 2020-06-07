@@ -25,23 +25,50 @@
                 <div class="filter-title">筛选</div>
                 <div class="filter-list">
                     <div class="filter-block">
-                        <div class="filter-name">地区</div>
-                        <ul class="filter-item-wrapper">
-                            <li title="全部" class="filter-item on">全部</li>
-                            <li title="日本" class="filter-item">大陆</li>
-                            <li title="美国" class="filter-item">港台</li>
-                            <li title="其他" class="filter-item">欧美</li>
-                            <li title="其他" class="filter-item">日韩</li>
-                        </ul>
+                        <div id="zoon" class="filter-name">地区</div>
+                        <input id="zoon1" name="zoon" type="radio" value="全部" checked="checked"><label for="zoon1">全部</label>
+                        <input id="zoon2" name="zoon" type="radio" value="大陆"><label for="zoon2">大陆</label>
+                        <input id="zoon3" name="zoon" type="radio" value="港台"><label for="zoon3">港台</label>
+                        <input id="zoon4" name="zoon" type="radio" value="欧美"><label for="zoon4">欧美</label>
+                        <input id="zoon5" name="zoon" type="radio" value="日韩"><label for="zoon5">日韩</label>
+                        <!--<ul class="filter-item-wrapper">-->
+                            <!--<li title="全部" class="filter-item on">全部</li>-->
+                            <!--<li title="日本" class="filter-item">大陆</li>-->
+                            <!--<li title="美国" class="filter-item">港台</li>-->
+                            <!--<li title="其他" class="filter-item">欧美</li>-->
+                            <!--<li title="其他" class="filter-item">日韩</li>-->
+                        <!--</ul>-->
                     </div>
                     <div class="filter-block">
-                        <div class="filter-name">类型</div>
-                        <ul class="filter-item-wrapper">
-                            <li title="全部" class="filter-item on">全部</li>
-                            <li title="正片" class="filter-item">歌星</li>
-                            <li title="电影" class="filter-item">影星</li>
-                            <li title="其他" class="filter-item">电视明星</li>
-                        </ul>
+                        <div id="type" class="filter-name">类型</div>
+
+                        <input id="type1" name="type" type="radio" value="全部" checked="checked"><label for="type1">全部</label>
+                        <input id="type2" name="type" type="radio" value="歌星" ><label for="type2">歌星</label>
+                        <input id="type3" name="type" type="radio" value="影星" ><label for="type3">影星</label>
+                        <input id="type4" name="type" type="radio" value="电视剧明星" ><label for="type4">电视剧明星</label>
+
+                        <!--<ul class="filter-item-wrapper">-->
+                            <!--<li title="全部" class="filter-item on">全部</li>-->
+                            <!--<li title="正片" class="filter-item">歌星</li>-->
+                            <!--<li title="电影" class="filter-item">影星</li>-->
+                            <!--<li title="其他" class="filter-item">电视明星</li>-->
+                        <!--</ul>-->
+                    </div>
+
+                    <div class="filter-block">
+                        <div id="gender " class="filter-name">男星|女星</div>
+
+                        <input id="gender1" name="gender" type="radio" value="全部" checked="checked"><label for="gender1">全部</label>
+                        <input id="gender2" name="gender" type="radio" value="女" ><label for="gender2">女星</label>
+                        <input id="gender3" name="gender" type="radio" value="男" ><label for="gender3">男星</label>
+                        <input id="gender4" name="gender" type="radio" value="未知" ><label for="gender4">未知</label>
+
+                        <!--<ul class="filter-item-wrapper">-->
+                        <!--<li title="全部" class="filter-item on">全部</li>-->
+                        <!--<li title="正片" class="filter-item">歌星</li>-->
+                        <!--<li title="电影" class="filter-item">影星</li>-->
+                        <!--<li title="其他" class="filter-item">电视明星</li>-->
+                        <!--</ul>-->
                     </div>
                 </div>
             </div>
@@ -65,10 +92,36 @@
 <script type="text/javascript">
 window.onload=function()//用window的onload事件，窗体加载完毕的时候
 {
-    $.post("user/getUserList",{"current":1,"size":20},function (data) {
+
+     firstonload();
+}
+
+$('input[type=radio]').change(function() {
+
+    firstonload();
+});
+
+function firstonload() {
+    var zoon1
+    var type1
+    var gender1
+    var zoon = $("input[name='zoon']:checked").val();
+    var type = $("input[name='type']:checked").val();
+    var gender = $("input[name='gender']:checked").val();
+    if (zoon !='全部'){
+        zoon1=zoon
+    }
+    if (type !='全部'){
+        type1=type
+    }
+    if (gender !='全部'){
+        gender1=gender
+    }
+    $.post("user/getUserList",{"current":1,"size":20,"addressType":zoon1,"starType":type1,"gender":gender1},function (data) {
         console.info(data);
+        $('#main').empty();
         for (var i=0;i<data.length;i++){
-            console.info(data[i])
+            //清空数据
             $("#main").append(" <li class=\"bangumi-item\" style=\"\">\n" +
                 "                        <a href=\"info.html?id="+data[i].id+"\" target=\"_blank\" class=\"cover-wrapper\">\n" +
                 "                            <div class=\"common-lazy-img\">\n" +
@@ -76,11 +129,10 @@ window.onload=function()//用window的onload事件，窗体加载完毕的时候
                 "                            </div>\n" +
                 "                        </a>\n" +
                 "                        <a href=\"info.html?id="+data[i].id+"\" target=\"_blank\" class=\"bangumi-title\">"+data[i].name+"&nbsp;&nbsp;热度 "+data[i].point+"</a>\n" +
-                    "<a href=\"message.html?sendUserId=25&receiveUserId="+data[i].id+"\" target=\"_blank\" class=\"bangumi-title\">私信</a>\n"+
+                "<a href=\"message.html?sendUserId=25&receiveUserId="+data[i].id+"\" target=\"_blank\" class=\"bangumi-title\">私信</a>\n"+
                 "                    </li>")
         }
     })
-    console.info("dasakhfaskf")
 }
 </script>
 </html>

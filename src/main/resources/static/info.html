@@ -17,7 +17,7 @@
             <td colspan="3" bgcolor="#9FCDEA">个人资料</td>
         </tr>
         <tr>
-            <td>姓 名：{{user.name}}</td>
+            <td>姓 名：<strong>{{user.name}}</strong></td>
             <td>年 龄：{{user.age}}岁</td>
             <!--<td rowspan="5" align="center" valign="middle">-->
             <td rowspan="4" align="center" valign="middle" width="180">
@@ -57,7 +57,6 @@
 </body>
 <script >
     angular.module("m", []).controller("c",function ($scope,$http) {
-        // $scope.name="刘亦菲";
         $scope.$watch('$viewContentLoaded', function () {
             var id= $scope.getQueryVariable("id");
             $.post("user/getUserById",{"id":id},function (data) {

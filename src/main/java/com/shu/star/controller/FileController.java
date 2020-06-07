@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -34,7 +35,7 @@ public class FileController {
     public Map uploadFile(Integer userId,MultipartFile file) throws Exception {
         ResponseMap map = ResponseMap.getInstance();
         String url = FileUtil.upload("1", file);
-        userMapper.addUserFile(userId,url);
+        userMapper.addUserFile(userId,url,new Date());
         return map.putSuccess("新增成功");
     }
 }

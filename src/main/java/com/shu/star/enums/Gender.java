@@ -7,5 +7,5 @@ package com.shu.star.enums;
  * @Description:
  */
 public enum  Gender {
-    女,男;
+    女,男,未知;
 }
