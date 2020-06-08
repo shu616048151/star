@@ -9,6 +9,7 @@
     <meta name="baidu-site-verification" content="gbRdPloQBZ">
     <meta name="spm_prefix" content="666.14">
     <script type="text/javascript" src="//static.hdslb.com/js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/display.css">
 
     <link rel="stylesheet" href="css/base.css" type="text/css" />
@@ -18,7 +19,7 @@
     <link rel="stylesheet" href="css/profile-less.css" type="text/css" />
 </head>
 
-<body>
+<body  ng-app="m" ng-controller="c" ng-init='index = "模块角色";subIndex = "账号管理"'>
     <div class='bangumi-index-wrapper'>
         <div class="bangumi-index-body clearfix">
             <div class="filter-wrapper">
@@ -26,11 +27,11 @@
                 <div class="filter-list">
                     <div class="filter-block">
                         <div id="zoon" class="filter-name">地区</div>
-                        <input id="zoon1" name="zoon" type="radio" value="全部" checked="checked"><label for="zoon1">全部</label>
-                        <input id="zoon2" name="zoon" type="radio" value="大陆"><label for="zoon2">大陆</label>
-                        <input id="zoon3" name="zoon" type="radio" value="港台"><label for="zoon3">港台</label>
-                        <input id="zoon4" name="zoon" type="radio" value="欧美"><label for="zoon4">欧美</label>
-                        <input id="zoon5" name="zoon" type="radio" value="日韩"><label for="zoon5">日韩</label>
+                        <input id="zoon1" name="zoon" type="radio" value="全部" checked="checked"><label for="zoon1">全部&nbsp;</label>
+                        <input id="zoon2" name="zoon" type="radio" value="大陆"><label for="zoon2">大陆 &nbsp;</label>
+                        <input id="zoon3" name="zoon" type="radio" value="港台"><label for="zoon3">港台&nbsp;</label>
+                        <input id="zoon4" name="zoon" type="radio" value="欧美"><label for="zoon4">欧美&nbsp;</label>
+                        <input id="zoon5" name="zoon" type="radio" value="日韩"><label for="zoon5">日韩&nbsp;</label>
                         <!--<ul class="filter-item-wrapper">-->
                             <!--<li title="全部" class="filter-item on">全部</li>-->
                             <!--<li title="日本" class="filter-item">大陆</li>-->
@@ -42,10 +43,10 @@
                     <div class="filter-block">
                         <div id="type" class="filter-name">类型</div>
 
-                        <input id="type1" name="type" type="radio" value="全部" checked="checked"><label for="type1">全部</label>
-                        <input id="type2" name="type" type="radio" value="歌星" ><label for="type2">歌星</label>
-                        <input id="type3" name="type" type="radio" value="影星" ><label for="type3">影星</label>
-                        <input id="type4" name="type" type="radio" value="电视剧明星" ><label for="type4">电视剧明星</label>
+                        <input id="type1" name="type" type="radio" value="全部" checked="checked"><label for="type1">全部&nbsp;</label>
+                        <input id="type2" name="type" type="radio" value="歌星" ><label for="type2">歌星&nbsp;</label>
+                        <input id="type3" name="type" type="radio" value="影星" ><label for="type3">影星&nbsp;</label>
+                        <input id="type4" name="type" type="radio" value="电视剧明星" ><label for="type4">电视剧明星&nbsp;</label>
 
                         <!--<ul class="filter-item-wrapper">-->
                             <!--<li title="全部" class="filter-item on">全部</li>-->
@@ -58,10 +59,10 @@
                     <div class="filter-block">
                         <div id="gender " class="filter-name">男星|女星</div>
 
-                        <input id="gender1" name="gender" type="radio" value="全部" checked="checked"><label for="gender1">全部</label>
-                        <input id="gender2" name="gender" type="radio" value="女" ><label for="gender2">女星</label>
-                        <input id="gender3" name="gender" type="radio" value="男" ><label for="gender3">男星</label>
-                        <input id="gender4" name="gender" type="radio" value="未知" ><label for="gender4">未知</label>
+                        <input id="gender1" name="gender" type="radio" value="全部" checked="checked"><label for="gender1">全部&nbsp;</label>
+                        <input id="gender2" name="gender" type="radio" value="女" ><label for="gender2">女星&nbsp;</label>
+                        <input id="gender3" name="gender" type="radio" value="男" ><label for="gender3">男星&nbsp;</label>
+                        <input id="gender4" name="gender" type="radio" value="未知" ><label for="gender4">未知&nbsp;</label>
 
                         <!--<ul class="filter-item-wrapper">-->
                         <!--<li title="全部" class="filter-item on">全部</li>-->
@@ -73,16 +74,16 @@
                 </div>
             </div>
             <div  class="filter-body">
-                <ul id="main" class="bangumi-list clearfix">
-                    <!--<li class="bangumi-item" style="">-->
-                        <!--<a href="" target="_blank" class="cover-wrapper">-->
-                            <!--<div class="common-lazy-img">-->
-                                <!--<img class="fl avator-img" id="js-portrait" src="https://kdfiles.d9lab.net/group1/M00/01/8F/cHxzJF7Lk-GADSXvAACpEkD1lSU599.jpg" data-portrait="58492fe600012e8e01800180" width="180" height="200">-->
-                            <!--</div>-->
-                        <!--</a>-->
-                        <!--<a href="" target="_blank" class="bangumi-title">维尔利特    热度 161</a>-->
-                        <!--<a href="" target="_blank" class="bangumi-title">私信</a>-->
-                    <!--</li>-->
+                <ul id="main"   class="bangumi-list clearfix">
+                    <li ng-repeat="user in users" class="bangumi-item" style="">
+                        <a href="info.html?id={{user.id}}" target="_blank" class="cover-wrapper">
+                            <div class="common-lazy-img">
+                                <img class="fl avator-img" id="js-portrait"  src="{{user.headUrl}}" data-portrait="58492fe600012e8e01800180" width="200" height="200">
+                            </div>
+                        </a>
+                        <a href="info.html?id={{user.id}}" target="_blank" class="bangumi-title">{{user.name}}    热度 {{user.point}}</a>
+                        <a href="message.html?sendUserId={{myuser.id}}&receiveUserId={{user.id}}" target="_blank" class="bangumi-title">私信</a>
+                    </li>
                 </ul>
             </div>
 
@@ -90,49 +91,104 @@
     </div>
 </body>
 <script type="text/javascript">
-window.onload=function()//用window的onload事件，窗体加载完毕的时候
-{
+    ///最原始的版本
+// window.onload=function()//用window的onload事件，窗体加载完毕的时候
+// {
+//
+//      firstonload();
+// }
 
-     firstonload();
-}
+// $('input[type=radio]').change(function() {
+//
+//     firstonload();
+// });
 
-$('input[type=radio]').change(function() {
+// function firstonload() {
+//     var zoon1
+//     var type1
+//     var gender1
+//     var zoon = $("input[name='zoon']:checked").val();
+//     var type = $("input[name='type']:checked").val();
+//     var gender = $("input[name='gender']:checked").val();
+//     if (zoon !='全部'){
+//         zoon1=zoon
+//     }
+//     if (type !='全部'){
+//         type1=type
+//     }
+//     if (gender !='全部'){
+//         gender1=gender
+//     }
+//     $.post("user/getUserList",{"current":1,"size":20,"addressType":zoon1,"starType":type1,"gender":gender1},function (data) {
+//         console.info(data);
+//         $('#main').empty();
+//         for (var i=0;i<data.length;i++){
+//             //清空数据
+//             $("#main").append(" <li class=\"bangumi-item\" style=\"\">\n" +
+//                 "                        <a href=\"info.html?id="+data[i].id+"\" target=\"_blank\" class=\"cover-wrapper\">\n" +
+//                 "                            <div class=\"common-lazy-img\">\n" +
+//                 "                                 <img class=\"fl avator-img\" id=\"js-portrait\" src=\""+data[i].urls[0]+"\" data-portrait=\"58492fe600012e8e01800180\" width=\"200\" height=\"200\">" +
+//                 "                            </div>\n" +
+//                 "                        </a>\n" +
+//                 "                        <a href=\"info.html?id="+data[i].id+"\" target=\"_blank\" class=\"bangumi-title\">"+data[i].name+"&nbsp;&nbsp;热度 "+data[i].point+"</a>\n" +
+//                 "<a href=\"message.html?sendUserId=25&receiveUserId="+data[i].id+"\" target=\"_blank\" class=\"bangumi-title\">私信</a>\n"+
+//                 "                    </li>")
+//         }
+//     })
+// }
 
-    firstonload();
-});
+angular.module("m", []).controller("c",function ($scope,$http) {
+    $scope.$watch('$viewContentLoaded', function () {
+        $scope.firstonload();
+    });
+    $('input[type=radio]').change(function() {
+        $scope.firstonload();
+    });
 
-function firstonload() {
-    var zoon1
-    var type1
-    var gender1
-    var zoon = $("input[name='zoon']:checked").val();
-    var type = $("input[name='type']:checked").val();
-    var gender = $("input[name='gender']:checked").val();
-    if (zoon !='全部'){
-        zoon1=zoon
-    }
-    if (type !='全部'){
-        type1=type
-    }
-    if (gender !='全部'){
-        gender1=gender
-    }
-    $.post("user/getUserList",{"current":1,"size":20,"addressType":zoon1,"starType":type1,"gender":gender1},function (data) {
-        console.info(data);
-        $('#main').empty();
-        for (var i=0;i<data.length;i++){
-            //清空数据
-            $("#main").append(" <li class=\"bangumi-item\" style=\"\">\n" +
-                "                        <a href=\"info.html?id="+data[i].id+"\" target=\"_blank\" class=\"cover-wrapper\">\n" +
-                "                            <div class=\"common-lazy-img\">\n" +
-                "                                 <img class=\"fl avator-img\" id=\"js-portrait\" src=\""+data[i].urls[0]+"\" data-portrait=\"58492fe600012e8e01800180\" width=\"200\" height=\"200\">" +
-                "                            </div>\n" +
-                "                        </a>\n" +
-                "                        <a href=\"info.html?id="+data[i].id+"\" target=\"_blank\" class=\"bangumi-title\">"+data[i].name+"&nbsp;&nbsp;热度 "+data[i].point+"</a>\n" +
-                "<a href=\"message.html?sendUserId=25&receiveUserId="+data[i].id+"\" target=\"_blank\" class=\"bangumi-title\">私信</a>\n"+
-                "                    </li>")
+    $scope.firstonload=function(){
+        var zoon1
+        var type1
+        var gender1
+        var zoon = $("input[name='zoon']:checked").val();
+        var type = $("input[name='type']:checked").val();
+        var gender = $("input[name='gender']:checked").val();
+        if (zoon !='全部'){
+            zoon1=zoon
         }
-    })
-}
+        if (type !='全部'){
+            type1=type
+        }
+        if (gender !='全部'){
+            gender1=gender
+        }
+        $.post("user/getUserList",{"current":1,"size":20,"addressType":zoon1,"starType":type1,"gender":gender1},function (data) {
+            console.info(data);
+            $scope.users=data;
+            $scope.$apply()
+        })
+        var id = $scope.getQueryVariable("id");
+        if (id !=  null){
+            $.post("user/getUserById",{"id":id},function (data) {
+                console.info(data);
+                $scope.myuser=data;
+                $scope.$apply()
+            })
+        }
+
+
+    }
+
+    $scope.getQueryVariable=function(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+
+})
 </script>
 </html>

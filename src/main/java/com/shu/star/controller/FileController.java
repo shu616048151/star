@@ -28,14 +28,14 @@ public class FileController {
     @Autowired
     private UserMapper userMapper;
 
-    @ApiOperation(value = "新增明星", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "文件上传", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiImplicitParams({
     })
-    @RequestMapping(value = "/addStar",method = RequestMethod.POST)
-    public Map uploadFile(Integer userId,MultipartFile file) throws Exception {
+    @RequestMapping(value = "/uploadFile",method = RequestMethod.POST)
+    public Map uploadFile(MultipartFile file) throws Exception {
         ResponseMap map = ResponseMap.getInstance();
         String url = FileUtil.upload("1", file);
-        userMapper.addUserFile(userId,url,new Date());
-        return map.putSuccess("新增成功");
+        userMapper.addFile(url,new Date());
+        return map.putValue(url,"新增成功");
     }
 }

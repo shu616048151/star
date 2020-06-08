@@ -32,4 +32,9 @@ public interface UserMapper {
     void addStarPoint(int id);
 
     Integer updateUser(User user);
+
+    List<UserVo> getUserByUserName(String userName);
+
+
+    void addFile(@Param("url") String url,@Param("createTime") Date date);
 }

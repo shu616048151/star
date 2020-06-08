@@ -20,10 +20,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.binding.MapperMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sun.reflect.misc.FieldUtil;
 
@@ -51,18 +48,27 @@ public class UserController {
     })
     @RequestMapping(value = "/addUser",method = RequestMethod.POST)
     @ResponseBody
-    public void addUser(User user){
+    public Map addUser(User user){
+        ResponseMap map = ResponseMap.getInstance();
+        List<UserVo> userVoList = userMapper.getUserByUserName(user.getUserName());
+        if (userVoList !=null && userVoList.size() > 0){
+            return map.putFailure("注册失败",-1);
+        }
         user.setPassword(SecureUtil.md5(user.getPassword()));
+        user.setIsDeleted(0);
+        user.setCreateTime(new Date());
+        user.setStatus(0);
         userMapper.addUser(user);
+        return map.putSuccess("注册成功");
     }
 
     @ApiOperation(value = "新增明星", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiImplicitParams({
     })
     @RequestMapping(value = "/addStar",method = RequestMethod.POST)
-    public Map addStar(String userName, String passwrod, String name, Gender gender,String birthday,String people, Integer height, Double weight, String address, AddressType addressTypeNew, StarType[] starTypes, MultipartFile file) throws Exception {
+    public Map addStar(String userName, String passwrod, String name, Gender gender, String birthday, String people, Integer height, Double weight, String address, AddressType addressType, StarType[] starTypes, MultipartFile file) throws Exception {
         ResponseMap map = ResponseMap.getInstance();
-
+        log.info(""+starTypes.length);
         if (birthday==null){
             return map.putFailure("数据有误",-1);
         }
@@ -72,7 +78,7 @@ public class UserController {
         Integer age=today.getYear()-parse.getYear();
         User user=new User(userName,SecureUtil.md5(passwrod),name,gender,age,height,weight,address);
         user.setPoint(0);
-        user.setAddressType(addressTypeNew);
+        user.setAddressType(addressType);
         user.setUserType(UserType.明星);
         user.setBirthday(birthday);
         user.setPeople(people);
@@ -82,16 +88,54 @@ public class UserController {
         user.setStatus(0);
         Integer flag = userMapper.addUser(user);
         if (flag > 0){
+            log.info(addressType.toString());
            for (StarType starType:starTypes){
-                userMapper.addStarItem(user.getId(),starType.ordinal(),new Date());
+               userMapper.addStarItem(user.getId(),starType.ordinal(),new Date());
            }
-           //上传文件
-//            for (MultipartFile file:files){
-//                String url = FileUtil.upload("1", file);
-//                userMapper.addUserFile(user.getId(),url);
-//            }
             String url = FileUtil.upload("1", file);
            userMapper.addUserFile(user.getId(),url,new Date());
+            return map.putSuccess("新增成功");
+        }
+        return map.putFailure("新增失败",-1);
+    }
+
+    @ApiOperation(value = "新增明星", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParams({
+    })
+    @RequestMapping(value = "/addStarNew",method = RequestMethod.POST)
+    public Map addStarNew(String userName, String passwrod, String name, Gender gender, String birthday, String people, Integer height, Double weight, String address, AddressType addressType,StarType[] starTypes,String file) throws Exception {
+        ResponseMap map = ResponseMap.getInstance();
+        if (birthday==null){
+            return map.putFailure("数据有误",-1);
+        }
+        //用户名检测
+        List<UserVo> userVoList = userMapper.getUserByUserName(userName);
+        if (userVoList !=null && userVoList.size() > 0){
+            return map.putFailure("注册失败",-1);
+        }
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy年MM月dd日");
+        Date parse = simpleDateFormat.parse(birthday);
+        Date today=new Date();
+        Integer age=today.getYear()-parse.getYear();
+        User user=new User(userName,SecureUtil.md5(passwrod),name,gender,age,height,weight,address);
+        user.setPoint(0);
+        user.setAddressType(addressType);
+        user.setUserType(UserType.明星);
+        user.setBirthday(birthday);
+        user.setPeople(people);
+        user.setCreateTime(new Date());
+        user.setUpdateTime(new Date());
+        user.setIsDeleted(0);
+        user.setStatus(0);
+        Integer flag = userMapper.addUser(user);
+        if (flag > 0){
+            log.info(addressType.toString());
+            log.info(""+starTypes.length);
+            for (StarType starType:starTypes){
+                userMapper.addStarItem(user.getId(),starType.ordinal(),new Date());
+            }
+            userMapper.addUserFile(user.getId(),file,new Date());
+
             return map.putSuccess("新增成功");
         }
         return map.putFailure("新增失败",-1);

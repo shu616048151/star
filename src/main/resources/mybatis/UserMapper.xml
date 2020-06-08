@@ -40,6 +40,7 @@
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
         <result property="isDeleted" column="is_deleted"/>
+        <association property="headUrl" column="id" select="getFileUrlByUserIdNew"></association>
         <collection property="urls" column="id" select="getFileUrlByUserId"></collection>
         <collection property="starTypeList" column="id" select="getStarTypeListByUserId"></collection>
     </resultMap>
@@ -50,6 +51,9 @@
     </select>
     <select id="getFileUrlByUserId" parameterType="integer" resultType="string">
         select url from user_file where user_id=#{0} and is_deleted=0 order by create_time desc
+    </select>
+    <select id="getFileUrlByUserIdNew" parameterType="integer" resultType="string">
+        select url from user_file where user_id=#{0} and is_deleted=0 order by create_time desc limit 1
     </select>
 
     <select id="getUserById" parameterType="integer" resultMap="getUserVo">
@@ -71,9 +75,14 @@
         values(#{userId},#{url},#{createTime},0)
     </insert>
 
+    <insert id="addFile" parameterType="com.shu.star.model.User" useGeneratedKeys="true" keyProperty="id">
+        insert into file(url,create_time,is_deleted)
+        values(#{url},#{createTime},0)
+    </insert>
 
 
-    <select id="login"  resultMap="getUser">
+
+    <select id="login"  resultMap="getUserVo">
         select * from user where user_name=#{userName} and password=#{password} and is_deleted=0
     </select>
 
@@ -147,5 +156,9 @@
         </set>
         where id=#{id}
     </update>
+
+    <select id="getUserByUserName" parameterType="string" resultMap="getUserVo">
+        select * from user where user_name=#{0}
+    </select>
 
 </mapper>

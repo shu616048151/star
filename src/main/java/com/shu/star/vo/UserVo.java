@@ -38,5 +38,6 @@ public class UserVo {
     private Date updateTime;
     private Integer isDeleted;
     private List<String> urls;
+    private String headUrl;
     private List<Integer> starTypeList;
 }

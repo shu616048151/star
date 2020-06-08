@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>明星资料添加</title>
+
+    <script type="text/javascript" src="//static.hdslb.com/js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+
+</head>
+<body  ng-app="m" ng-controller="c">
+<div>
+    <form id="form" action="user/addStar" method="post" enctype="multipart/form-data">
+    <table width="800" border="1" align="center" cellpadding="10" cellspacing="0">
+        <caption><h3>新增个人资料</h3></caption>
+        <tr>
+            <td colspan="3" bgcolor="#9FCDEA">个人资料</td>
+        </tr>
+        <tr>
+            <td>用户名：<input ng-model="userName" type="text"></td>
+            <td>密 码：<input ng-model="password" type="text"></td>
+            <!--照片-->
+            <td rowspan="5" align="center" valign="middle" width="180">
+            <input align="center" id="file" ng-model="file" accept="image/gif,image/jpeg, image/png, image/jpg" type="file">
+            </td>
+        </tr>
+        <tr>
+            <td>姓 名：<input ng-model="name" type="text"></td>
+            <td>年 龄：<input ng-model="age" type="text"></td>
+
+        </tr>
+        <tr>
+            <td>出 生：<input ng-model="birthday" type="text"></td>
+            <td>籍 贯：<input ng-model="address" type="text"></td>
+        </tr>
+        <tr>
+            <td>性 别：<input ng-model="gender" type="radio" value="男">男
+                <input ng-model="gender" type="radio" value="女">女
+
+            </td>
+            <td>民 族：<input ng-model="people" type="text"></td>
+        </tr>
+        <tr>
+            <td>身 高：<input ng-model="height" type="text"></td>
+            <td>体 重：<input ng-model="weight" type="text"></td>
+        </tr>
+
+        <tr>
+            <td colspan="3">
+                地区：
+                <input id="radio1" ng-model="addressType" type="radio" value="大陆"><label for="radio1">大陆</label>
+                <input id="radio2" ng-model="addressType" type="radio" value="港台"><label for="radio2">港台</label>
+                <input id="radio3" ng-model="addressType" type="radio" value="欧美"><label for="radio3">欧美</label>
+                <input id="radio4" ng-model="addressType" type="radio" value="日韩"><label for="radio4">日韩</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                明星类型：
+                <input name="starType" id="checkbox1" type="checkbox" value="歌星"><label for="checkbox1">歌星</label>
+                <input name="starType" id="checkbox2" type="checkbox" value="影星"><label for="checkbox3">影星</label>
+                <input name="starType" id="checkbox3" type="checkbox" value="电视剧明星"><label for="checkbox3">电视剧明星</label>
+               </td>
+        </tr>
+    </table>
+    </form>
+
+    <div style="text-align:center">
+        <button ng-click="addUser()">提交</button>
+    </div>
+
+</div>
+</body>
+<script >
+    angular.module("m", []).controller("c",function ($scope,$http) {
+       $scope.addUser=function () {
+           //数据校验
+           if ($scope.userName == null ||$scope.password == null ||$scope.birthday == null){
+               alert("数据不能为空")
+           }
+
+            var checked = $("input[type=checkbox]:checked");
+            var array=new Array();
+            for (var i=0;i<checked.length;i++){
+                array[i]=checked[i].value;
+            }
+            $scope.starTypes=array;
+            console.info(array)
+           //文件上传
+           var formData = new FormData();
+           formData.append("file",$("#file")[0].files[0]);
+           $.ajax({
+               type:"post",
+               url: "file/uploadFile",
+               contentType: false,
+               processData: false,
+               data: formData,
+               success:function (data) {
+                   console.info(data)
+                   if (data.success && data.value != null){
+                       $scope.file=data.value;
+                       $.ajax({
+                           type:"post",
+                           url: "user/addStarNew",
+                           dataType: "json",
+                           traditional:true,
+                           data: {
+                               "userName": $scope.userName,
+                               "password": $scope.password,
+                               "name": $scope.name,
+                               "gender": $scope.gender,
+                               "birthday": $scope.birthday,
+                               "people": $scope.people,
+                               "height": $scope.height,
+                               "weight": $scope.weight,
+                               "address": $scope.address,
+                               "addressType": $scope.addressType,
+                               "starTypes": array,
+                               "file": $scope.file,
+                           },
+                           success: function (data) {
+                               console.info(data)
+                           }
+                       })
+                   }
+               }
+           })
+
+
+       }
+        
+    })
+</script>
+</html>
